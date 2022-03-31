@@ -1,30 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <router-link to="/login">
-          <q-item-section avatar>
-            <q-icon name="school" />
-          </q-item-section>
-        </router-link>
-        <router-link to="/register">
-          <q-item-section avatar>
-            <q-icon name="record_voice_over" />
-          </q-item-section>
-        </router-link>
-      </q-toolbar>
-    </q-header>
+    <MainHeader :user="user" @toggleLeftDrawer="toggleLeftDrawer" />
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <MainNav />
@@ -37,25 +13,46 @@
 </template>
 
 <script lang="ts">
+import { api } from 'src/boot/axios';
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import MainNav from './MainNav.vue';
+import MainHeader from './MainHeader.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
     MainNav,
+    MainHeader,
+  },
+
+  data() {
+    return {
+      user: null,
+      leftDrawerOpen: false,
+    };
+  },
+  methods: {
+    toggleLeftDrawer() {
+      this.leftDrawerOpen = !this.leftDrawerOpen;
+    },
   },
 
   setup() {
-    const leftDrawerOpen = ref(false);
-
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-    };
+    // const leftDrawerOpen = ref(false);
+    // return {
+    //   leftDrawerOpen: this.leftDrawerOpen,
+    // };
+  },
+  async mounted() {
+    const router = useRouter();
+    try {
+      const { data } = await api.get('user');
+      this.user = data;
+    } catch {
+      router.push('login');
+    }
   },
 });
 </script>
