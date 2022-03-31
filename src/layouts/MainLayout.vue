@@ -13,7 +13,16 @@
 
         <q-toolbar-title> Quasar App </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <router-link to="/login">
+          <q-item-section avatar>
+            <q-icon name="school" />
+          </q-item-section>
+        </router-link>
+        <router-link to="/register">
+          <q-item-section avatar>
+            <q-icon name="record_voice_over" />
+          </q-item-section>
+        </router-link>
       </q-toolbar>
     </q-header>
 
