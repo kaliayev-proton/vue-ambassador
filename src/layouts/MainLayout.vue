@@ -1,6 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <MainHeader :user="user" @toggleLeftDrawer="toggleLeftDrawer" />
+    <MainHeader
+      :user="user"
+      @toggleLeftDrawer="toggleLeftDrawer"
+      @logout="logout"
+    />
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <MainNav />
@@ -14,10 +18,11 @@
 
 <script lang="ts">
 import { api } from 'src/boot/axios';
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import MainNav from './MainNav.vue';
 import MainHeader from './MainHeader.vue';
+import { User } from 'src/models/user';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -29,13 +34,18 @@ export default defineComponent({
 
   data() {
     return {
-      user: null,
+      user: new User(),
       leftDrawerOpen: false,
     };
   },
   methods: {
     toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen;
+    },
+    async logout() {
+      await api.post('logout');
+
+      this.$router.push('login');
     },
   },
 

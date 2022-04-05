@@ -16,10 +16,16 @@ import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
   {
-    title: 'Docs',
+    title: 'Users',
     caption: 'quasar.dev',
     icon: 'school',
-    link: 'https://quasar.dev',
+    link: '/users',
+  },
+  {
+    title: 'Products',
+    caption: 'quasar.dev',
+    icon: 'school',
+    link: '/products',
   },
   {
     title: 'Github',
