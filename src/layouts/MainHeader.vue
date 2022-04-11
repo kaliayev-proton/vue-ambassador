@@ -36,10 +36,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useUserStore } from 'stores/user';
 
 export default defineComponent({
   name: 'MainHeader',
-  props: ['user'],
 
   methods: {
     toggleLeftDrawer() {
@@ -47,6 +47,12 @@ export default defineComponent({
     },
     logout() {
       this.$emit('logout');
+    },
+  },
+  computed: {
+    user() {
+      const UserStore = useUserStore();
+      return UserStore.getUser;
     },
   },
 });

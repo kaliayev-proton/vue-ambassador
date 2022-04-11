@@ -1,10 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <MainHeader
-      :user="user"
-      @toggleLeftDrawer="toggleLeftDrawer"
-      @logout="logout"
-    />
+    <MainHeader @toggleLeftDrawer="toggleLeftDrawer" @logout="logout" />
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <MainNav />
@@ -22,7 +18,7 @@ import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import MainNav from './MainNav.vue';
 import MainHeader from './MainHeader.vue';
-import { User } from 'src/models/user';
+import { useUserStore } from 'stores/user';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -34,7 +30,6 @@ export default defineComponent({
 
   data() {
     return {
-      user: new User(),
       leftDrawerOpen: false,
     };
   },
@@ -45,23 +40,19 @@ export default defineComponent({
     async logout() {
       await api.post('logout');
 
-      this.$router.push('login');
+      this.$router.push('/login');
     },
   },
 
-  setup() {
-    // const leftDrawerOpen = ref(false);
-    // return {
-    //   leftDrawerOpen: this.leftDrawerOpen,
-    // };
-  },
   async mounted() {
     const router = useRouter();
     try {
       const { data } = await api.get('user');
-      this.user = data;
+      const UserStore = useUserStore();
+
+      UserStore.setUser(data);
     } catch {
-      router.push('login');
+      router.push('/login');
     }
   },
 });

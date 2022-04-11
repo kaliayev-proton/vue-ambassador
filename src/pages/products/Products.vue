@@ -1,6 +1,23 @@
 <template>
   <div class="q-pa-md">
-    <q-table title="Treats" :rows="products" :columns="columns" row-key="name">
+    <div class="q-pa-md q-gutter-md">
+      <q-card class="my-card">
+        <q-card-section>
+          <q-btn
+            color="green"
+            text-color="white"
+            label="Add Product"
+            @click="$router.push('/products/create')"
+          />
+        </q-card-section>
+      </q-card>
+    </div>
+    <q-table
+      title="Products"
+      :rows="products"
+      :columns="columns"
+      row-key="name"
+    >
       <template v-slot:body-cell-img="props">
         <q-td key="bookmark" :props="props">
           <q-img
@@ -14,12 +31,20 @@
       </template>
       <template v-slot:body-cell-actions="props">
         <q-td key="bookmark" :props="props">
-          <q-btn
-            color="red"
-            text-color="black"
-            label="Delete"
-            @click="del(props.row.id)"
-          />
+          <q-btn-group push>
+            <q-btn
+              color="red"
+              text-color="black"
+              label="Delete"
+              @click="del(props.row.id)"
+            />
+            <q-btn
+              color="blue"
+              text-color="white"
+              label="Edit"
+              :href="`/products/${props.row.id}/edit`"
+            />
+          </q-btn-group>
         </q-td>
       </template>
     </q-table>

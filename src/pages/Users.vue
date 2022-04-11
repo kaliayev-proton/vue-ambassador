@@ -13,6 +13,7 @@
 </template>
 <script lang="ts">
 import { api } from 'src/boot/axios';
+import { User } from 'src/models/user';
 import { defineComponent } from 'vue';
 
 const columns = [
@@ -20,14 +21,14 @@ const columns = [
     name: 'id',
     label: '#',
     align: 'left',
-    field: (row: any) => row.id,
+    field: (row: User) => row.id,
     // format: (val) => `${val}`,
   },
   {
     name: 'name',
     label: 'Name',
     align: 'left',
-    field: (row: any) => `${row.first_name} ${row.last_name}`,
+    field: (row: User) => `${row.first_name} ${row.last_name}`,
   },
   {
     name: 'email',
